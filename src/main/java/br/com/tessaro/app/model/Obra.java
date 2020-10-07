@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -31,6 +33,7 @@ public class Obra implements Serializable {
 	private String nome;
 	
 	@NotNull
+	@Length(max = 240)
 	@Column(name = "tb_descricao")
 	private String descricao;
 	
