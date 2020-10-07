@@ -14,10 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "tb_autor")
@@ -28,26 +24,20 @@ public class Autor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
 	@Column(name = "tb_nome")
 	private String nome;
 	
 	@Column(name = "tb_sexo")
 	private String sexo;
 	
-	@Email
 	@Column(name = "tb_email")
 	private String email;
 	
-//	@Past
-	@NotNull
 	private LocalDate dataNascimento;
 	
-	@NotNull
 	@Column(name = "tb_pais")
 	private Pais pais;
 	
-	@CPF
 	@Column(name = "tb_cpf")
 	private String cpf;
 	
@@ -61,9 +51,8 @@ public class Autor implements Serializable {
 		
 	}
 	
-	public Autor(Long id, String nome, String sexo, String email, LocalDate dataNascimento, Pais pais, String cpf) {
+	public Autor(String nome, String sexo, String email, LocalDate dataNascimento, Pais pais, String cpf) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.sexo = sexo;
 		this.email = email;

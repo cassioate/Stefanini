@@ -13,9 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,13 +25,10 @@ public class Obra implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
-	@Column(name = "tb_nome")
+	@Column(name = "tb_nome", nullable = false)
 	private String nome;
 	
-	@NotNull
-	@Length(max = 240)
-	@Column(name = "tb_descricao")
+	@Column(name = "tb_descricao", length = 240, nullable=false)
 	private String descricao;
 	
 	@Column(name = "tb_publicacao")
@@ -51,9 +45,8 @@ public class Obra implements Serializable {
 		
 	}
 	
-	public Obra(Long id, String nome, String descricao, LocalDate dataPublicacao, LocalDate dataExposicao) {
+	public Obra(String nome, String descricao, LocalDate dataPublicacao, LocalDate dataExposicao) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.dataPublicacao = dataPublicacao;

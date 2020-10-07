@@ -1,5 +1,6 @@
 package br.com.tessaro.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,10 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import br.com.tessaro.app.dto.ObraDTO;
-import br.com.tessaro.app.dto.ObraGetDTO;
+import br.com.tessaro.app.dto.obra.CadastrarEditarObraDTO;
+import br.com.tessaro.app.dto.obra.VisualizarObraDTO;
 import br.com.tessaro.app.model.Obra;
 import br.com.tessaro.app.repository.ObraRepository;
+import br.com.tessaro.app.service.mapper.ObraMapper;
+import br.com.tessaro.app.service.util.TimeUtil;
 
 @Service
 public class ObraService {
@@ -20,60 +23,61 @@ public class ObraService {
 	@Autowired
 	private ObraRepository repository;
 	
-	public List<Obra> findAll(){
-		return repository.findAll();
+	public List<VisualizarObraDTO> findAll(){
+		List<VisualizarObraDTO> visualizar = new ArrayList<>();
+		List<Obra> obras = repository.findAll();
+		ObraMapper.mapperVisualizar(visualizar, obras);
+		return visualizar;
 	}
 	
-	public Obra findById (Long id) {
+	public VisualizarObraDTO findById (Long id) {
+		VisualizarObraDTO visualizar = new VisualizarObraDTO();
 		Optional<Obra> obj = repository.findById(id);
-		return obj.get();
+		ObraMapper.mapperVisualizarID(visualizar, obj.get());
+		return visualizar;
 	}
 	
-	public Obra insert (Obra objeto) {
-		return repository.save(objeto);
+	public VisualizarObraDTO insert(CadastrarEditarObraDTO cadastrarDTO) {
+		VisualizarObraDTO visualizar = new VisualizarObraDTO();
+		Obra obra = ObraMapper.mapper(cadastrarDTO);
+		repository.save(obra);
+		ObraMapper.mapperVisualizarID(visualizar, obra);
+		return visualizar;
 	}
 	
-	public Obra update (Obra obj, Long id) {
+	public Obra update (CadastrarEditarObraDTO obj, Long id) {
 		Obra entity = repository.getOne(id);
-		updateData(entity, obj);
+		ObraMapper.mapperEditar(entity, obj);
 		return repository.save(entity);
-		
 	}
-	
-	private void updateData(Obra entity, Obra obj) {
-		if(obj.getNome() != null) {
-		entity.setNome(obj.getNome());
-		} if(obj.getDescricao() != null) {
-		entity.setDescricao(obj.getDescricao());
-		} if(obj.getDataPublicacao() != null) {
-		entity.setDataPublicacao(obj.getDataPublicacao());
-		} if(obj.getDataExposicao() != null) {
-		entity.setDataExposicao(obj.getDataExposicao());
-		}
-	}
-	
-//	public void delete () {
-//		repository.deleteAll();
-//	}
 	
 	public void deleteId(Long id) {
 		repository.deleteById(id);
 	}
-
-	public ObraGetDTO fromGetDTO(Obra obra) {
-		ObraGetDTO obj = new ObraGetDTO(obra);
-		return obj;
-	}
-	
-	public Obra fromDTO(ObraDTO obj) {
-		Obra obra = new Obra(null, obj.getNome(), obj.getDescricao(), obj.getDataPublicacao(), obj.getDataExposicao());
-		return obra;
-	}
-
 	
 	public Page<Obra> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
 	}
 
+	public List<VisualizarObraDTO> findPublicacao(String dataInicial, String dataFinal) {
+		List<VisualizarObraDTO> visualizar = new ArrayList<>();
+		List<Obra> obras = repository.findByData(TimeUtil.toLocalDate(dataInicial),TimeUtil.toLocalDate(dataFinal));
+		ObraMapper.mapperVisualizar(visualizar, obras);
+		return visualizar;
+	}
+	
+	public VisualizarObraDTO fromGetDTO(Obra obra) {
+		VisualizarObraDTO obj = new VisualizarObraDTO(obra);
+		return obj;
+	}
+	
+	public Obra fromDTO(CadastrarEditarObraDTO obj) {
+		Obra obra = new Obra(
+				obj.getNome(), 
+				obj.getDescricao(), 
+				TimeUtil.toLocalDate(obj.getDataPublicacao()), 
+				TimeUtil.toLocalDate(obj.getDataExposicao()));
+		return obra;
+	}
 }

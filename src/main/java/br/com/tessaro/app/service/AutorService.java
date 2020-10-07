@@ -1,5 +1,6 @@
 package br.com.tessaro.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,10 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import br.com.tessaro.app.dto.AutorDTO;
-import br.com.tessaro.app.dto.AutorGetDTO;
+import br.com.tessaro.app.dto.autor.CadastrarAutorDTO;
+import br.com.tessaro.app.dto.autor.VisualizarAutorDTO;
 import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.repository.AutorRepository;
+import br.com.tessaro.app.service.mapper.AutorMapper;
+import br.com.tessaro.app.service.util.TimeUtil;
 
 @Service
 public class AutorService {
@@ -20,65 +23,64 @@ public class AutorService {
 	@Autowired
 	private AutorRepository repository;
 	
-	public List<Autor> findAll(){
-		return repository.findAll();
+	public List<VisualizarAutorDTO> findAll(){
+		List<VisualizarAutorDTO> visualizar = new ArrayList<>();
+		List<Autor> autores = repository.findAll();
+		AutorMapper.mapperVisualizar(visualizar, autores);
+		return visualizar;
 	}
 	
-	public Autor findById (Long id) {
+	public VisualizarAutorDTO findById (Long id) {
+		VisualizarAutorDTO visualizar = new VisualizarAutorDTO();
 		Optional<Autor> obj = repository.findById(id);
-		return obj.get();
+		AutorMapper.mapperVisualizarID(visualizar, obj.get());
+		return visualizar;
 	}
 	
-	public Autor insert (Autor objeto) {
-		return repository.save(objeto);
+	public VisualizarAutorDTO insert(CadastrarAutorDTO cadastrarDTO) {
+		VisualizarAutorDTO visualizar = new VisualizarAutorDTO();
+		Autor autor = AutorMapper.mapper(cadastrarDTO);
+		repository.save(autor);
+		AutorMapper.mapperVisualizarID(visualizar, autor);
+		return visualizar;
 	}
 	
-	public Autor update (Autor obj, Long id) {
+	public Autor update (CadastrarAutorDTO obj, Long id) {
 		Autor entity = repository.getOne(id);
-		updateData(entity, obj);
+		AutorMapper.mapperEditar(entity, obj);
 		return repository.save(entity);
 	}
 	
-	private void updateData(Autor entity, Autor obj) {
-		if(obj.getNome() != null) {
-		entity.setNome(obj.getNome());
-		} if(obj.getEmail() != null) {
-		entity.setEmail(obj.getEmail());
-		} if(obj.getPais() != null) {
-		entity.setPais(obj.getPais());
-		} if(obj.getSexo() != null) {
-		entity.setSexo(obj.getSexo());
-		}
-	}
-	
-//	public void delete () {
-//		repository.deleteAll();
-//	}
-	
 	public void deleteId(Long id) {
-		if (repository.findById(id).get().getObras().isEmpty()) {
 		repository.deleteById(id);
-		}
-	} 
-
-	public AutorGetDTO fromGetDTO(Autor autor) {
-		AutorGetDTO obj = new AutorGetDTO(autor);
-		return obj;
-	}
-	
-	public Autor fromDTO(AutorDTO obj) {
-		Autor autor = new Autor(null, obj.getNome(), obj.getSexo(), obj.getCpf(), obj.getDataNascimento(), obj.getPais(), obj.getCpf());
-		return autor;
-	}
-	
-	public Autor fromDTOUpdate(AutorDTO obj) {
-		Autor autor = new Autor(obj.getNome(), obj.getSexo(), obj.getEmail(), obj.getDataNascimento(), obj.getPais());
-		return autor;
 	}
 	
 	public Page<Autor> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
+	}
+
+//	public List<VisualizarAutorDTO> findPublicacao(String dataInicial, String dataFinal) {
+//		List<VisualizarAutorDTO> visualizar = new ArrayList<>();
+//		List<Autor> autores = repository.findByData(TimeUtil.toLocalDate(dataInicial),TimeUtil.toLocalDate(dataFinal));
+//		AutorMapper.mapperVisualizar(visualizar, autores);
+//		return visualizar;
+//	}
+	
+	public VisualizarAutorDTO fromGetDTO(Autor autor) {
+		VisualizarAutorDTO obj = new VisualizarAutorDTO(autor);
+		return obj;
+	}
+	
+	public Autor fromDTO(CadastrarAutorDTO obj) {
+		Autor autor = new Autor(
+				obj.getNome(), 
+				obj.getSexo(),
+				obj.getEmail(),
+				TimeUtil.toLocalDate(obj.getDataNascimento()),
+				obj.getPais(),
+				obj.getCpf());
+		return autor;
 	}
 
 }

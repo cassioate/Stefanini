@@ -1,41 +1,30 @@
-package br.com.tessaro.app.dto;
+package br.com.tessaro.app.dto.obra;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.model.Obra;
 
-public class ObraDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class VisualizarObraDTO {
 	
 	private String nome;
-	
+
 	private String descricao;
 
 	private LocalDate dataPublicacao;
 
 	private LocalDate dataExposicao;
 	
-	private List<Autor> autores = new ArrayList<>();
-
-	public ObraDTO() {
+	public VisualizarObraDTO() {
 		
 	}
 	
-	public ObraDTO (Obra obra) {
-		super();
+	public VisualizarObraDTO (Obra obra) {
 		this.nome = obra.getNome();
 		this.descricao = obra.getDescricao();
 		this.dataPublicacao = obra.getDataPublicacao();
 		this.dataExposicao = obra.getDataExposicao();
-		for (Autor autor : obra.getAutores()) {
-			this.autores.add(autor);
-		}
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -67,13 +56,4 @@ public class ObraDTO implements Serializable {
 	public void setDataExposicao(LocalDate dataExposicao) {
 		this.dataExposicao = dataExposicao;
 	}
-
-	public List<Autor> getAutores() {
-		return autores;
-	}
-
-	public void setAutores(List<Autor> autores) {
-		this.autores = autores;
-	}
-	
 }

@@ -7,4 +7,6 @@ import br.com.tessaro.app.model.Autor;
 public interface AutorRepository extends JpaRepository<Autor, Long>{
 	
 	Autor findByEmail(String email);
+	
+	
 }

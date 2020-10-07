@@ -27,17 +27,17 @@ public class GerenciamentoApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Autor autor1 = new Autor(null, "Cassio", "Masculino", "cassio8888ate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
-		Autor autor2 = new Autor(null, "Claudio", "Masculino", "cass77777ioate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
-		Autor autor3 = new Autor(null, "Maria", "Masculino", "4566@gmail.com", LocalDate.now(), new Pais(1, "França"), "527.873.972-04");
-		Autor autor4 = new Autor(null, "Jose", "Masculino", "123@gmail.com", LocalDate.now(), new Pais(1, "Argentina"), "527.873.972-04");
-		Autor autor5 = new Autor(null, "Francisco", "Masculino", "cass888875534ioate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
+		Autor autor1 = new Autor("Cassio", "Masculino", "cassio8888ate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
+		Autor autor2 = new Autor("Claudio", "Masculino", "cass77777ioate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
+		Autor autor3 = new Autor("Maria", "Masculino", "4566@gmail.com", LocalDate.now(), new Pais(1, "França"), "527.873.972-04");
+		Autor autor4 = new Autor("Jose", "Masculino", "123@gmail.com", LocalDate.now(), new Pais(1, "Argentina"), "527.873.972-04");
+		Autor autor5 = new Autor("Francisco", "Masculino", "cass888875534ioate@gmail.com", LocalDate.now(), new Pais(1, "Brasil"), "527.873.972-04");
 		
-		Obra obra1 = new Obra(null, "Obra 1", "Obra legal", LocalDate.now(), LocalDate.now());
-		Obra obra2 = new Obra(null, "Obra 2", "Obra legal", LocalDate.now(), LocalDate.now());
-		Obra obra3 = new Obra(null, "Obra 3", "Obra legal", LocalDate.now(), LocalDate.now());
-		Obra obra4 = new Obra(null, "Obra 4", "Obra legal", LocalDate.now(), LocalDate.now());
-		Obra obra5 = new Obra(null, "Obra 5", "Obra legal", LocalDate.now(), LocalDate.now());
+		Obra obra1 = new Obra("Obra 1", "Obra legal", LocalDate.now(), LocalDate.now());
+		Obra obra2 = new Obra("Obra 2", "Obra legal", LocalDate.now(), LocalDate.now());
+		Obra obra3 = new Obra("Obra 3", "Obra legal", LocalDate.now(), LocalDate.now());
+		Obra obra4 = new Obra("Obra 4", "Obra legal", LocalDate.now(), LocalDate.now());
+		Obra obra5 = new Obra("Obra 5", "Obra legal", LocalDate.now(), LocalDate.now());
 		
 		autor1.setObras(Arrays.asList(obra1,obra2));
 		autor2.setObras(Arrays.asList(obra3,obra2));
