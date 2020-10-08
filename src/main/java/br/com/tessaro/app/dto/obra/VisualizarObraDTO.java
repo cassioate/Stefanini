@@ -6,6 +6,8 @@ import br.com.tessaro.app.model.Obra;
 
 public class VisualizarObraDTO {
 	
+	private Long id;
+	
 	private String nome;
 
 	private String descricao;
@@ -19,6 +21,7 @@ public class VisualizarObraDTO {
 	}
 	
 	public VisualizarObraDTO (Obra obra) {
+		this.id = obra.getId();
 		this.nome = obra.getNome();
 		this.descricao = obra.getDescricao();
 		this.dataPublicacao = obra.getDataPublicacao();
@@ -55,5 +58,13 @@ public class VisualizarObraDTO {
 
 	public void setDataExposicao(LocalDate dataExposicao) {
 		this.dataExposicao = dataExposicao;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

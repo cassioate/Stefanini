@@ -2,34 +2,59 @@ package br.com.tessaro.app.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_pais")
+@Table(name = "Paises")
 public class Pais implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int codigo;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@Column(name = "tb_nome")
+	private String iso;
+	
+	private String iso3;
+	
+	private String numCode;
+	
 	private String nome;
 
-	public Pais(int codigo, String nome) {
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
+	public Long getId() {
+		return id;
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public String getIso() {
+		return iso;
+	}
+
+	public void setIso(String iso) {
+		this.iso = iso;
+	}
+
+	public String getIso3() {
+		return iso3;
+	}
+
+	public void setIso3(String iso3) {
+		this.iso3 = iso3;
+	}
+
+	public String getNumCode() {
+		return numCode;
+	}
+
+	public void setNumCode(String numCode) {
+		this.numCode = numCode;
 	}
 
 	public String getNome() {
@@ -39,5 +64,5 @@ public class Pais implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 }

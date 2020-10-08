@@ -41,11 +41,6 @@ public class AutorController {
 		return new ResponseEntity<VisualizarAutorDTO>(service.findById(id), HttpStatus.OK);
 	}
 	
-//	@GetMapping(value = "/{id}")
-//	public ResponseEntity<VisualizarObraDTO> findById(@PathVariable Long id) {
-//		return new ResponseEntity<VisualizarObraDTO>(service.findById(id), HttpStatus.OK);
-//	}
-	
 	@PostMapping
 	public ResponseEntity<VisualizarAutorDTO> insert(@RequestBody @Valid CadastrarAutorDTO cadastrarDTO) {
 		return new ResponseEntity<VisualizarAutorDTO>(service.insert(cadastrarDTO), HttpStatus.CREATED);
@@ -53,13 +48,13 @@ public class AutorController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Autor> put(@RequestBody CadastrarAutorDTO user, @PathVariable Long id) {
-		return ResponseEntity.ok().body(service.update(user, id));
+		return new ResponseEntity<Autor>(service.update(user, id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+	public ResponseEntity<String> deleteById(@PathVariable Long id) {
 		service.deleteId(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok("Deletado com sucesso!");
 	}
 
 	@RequestMapping(value="/page", method=RequestMethod.GET)

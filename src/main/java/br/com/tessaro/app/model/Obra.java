@@ -28,7 +28,7 @@ public class Obra implements Serializable {
 	@Column(name = "tb_nome", nullable = false)
 	private String nome;
 	
-	@Column(name = "tb_descricao", length = 240, nullable=false)
+	@Column(name = "tb_descricao", nullable=false)
 	private String descricao;
 	
 	@Column(name = "tb_publicacao")

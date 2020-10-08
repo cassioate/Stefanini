@@ -14,14 +14,17 @@ import br.com.tessaro.app.dto.autor.CadastrarAutorDTO;
 import br.com.tessaro.app.dto.autor.VisualizarAutorDTO;
 import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.repository.AutorRepository;
+import br.com.tessaro.app.repository.PaisRepository;
 import br.com.tessaro.app.service.mapper.AutorMapper;
-import br.com.tessaro.app.service.util.TimeUtil;
 
 @Service
 public class AutorService {
 
 	@Autowired
 	private AutorRepository repository;
+	
+	@Autowired
+	private PaisRepository paisRepository;
 	
 	public List<VisualizarAutorDTO> findAll(){
 		List<VisualizarAutorDTO> visualizar = new ArrayList<>();
@@ -40,6 +43,7 @@ public class AutorService {
 	public VisualizarAutorDTO insert(CadastrarAutorDTO cadastrarDTO) {
 		VisualizarAutorDTO visualizar = new VisualizarAutorDTO();
 		Autor autor = AutorMapper.mapper(cadastrarDTO);
+		autor.setPais(paisRepository.findByNome(cadastrarDTO.getPais()));
 		repository.save(autor);
 		AutorMapper.mapperVisualizarID(visualizar, autor);
 		return visualizar;
@@ -60,27 +64,11 @@ public class AutorService {
 		return repository.findAll(pageRequest);
 	}
 
-//	public List<VisualizarAutorDTO> findPublicacao(String dataInicial, String dataFinal) {
-//		List<VisualizarAutorDTO> visualizar = new ArrayList<>();
-//		List<Autor> autores = repository.findByData(TimeUtil.toLocalDate(dataInicial),TimeUtil.toLocalDate(dataFinal));
-//		AutorMapper.mapperVisualizar(visualizar, autores);
-//		return visualizar;
-//	}
-	
-	public VisualizarAutorDTO fromGetDTO(Autor autor) {
-		VisualizarAutorDTO obj = new VisualizarAutorDTO(autor);
-		return obj;
-	}
-	
-	public Autor fromDTO(CadastrarAutorDTO obj) {
-		Autor autor = new Autor(
-				obj.getNome(), 
-				obj.getSexo(),
-				obj.getEmail(),
-				TimeUtil.toLocalDate(obj.getDataNascimento()),
-				obj.getPais(),
-				obj.getCpf());
-		return autor;
+	public VisualizarAutorDTO findAutor(String nome) {
+		VisualizarAutorDTO visualizar = new VisualizarAutorDTO();
+		Autor autor = repository.findByNome(nome);
+		AutorMapper.mapperVisualizarID(visualizar, autor);
+		return visualizar;
 	}
 
 }

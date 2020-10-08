@@ -8,4 +8,6 @@ import br.com.tessaro.app.model.Pais;
 @Repository
 public interface PaisRepository extends JpaRepository<Pais, Long>{
 
+	Pais findByNome(String nome);
+	
 }

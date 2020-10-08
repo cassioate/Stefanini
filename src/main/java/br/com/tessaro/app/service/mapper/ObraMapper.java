@@ -2,6 +2,8 @@ package br.com.tessaro.app.service.mapper;
 
 import java.util.List;
 
+import org.apache.logging.log4j.util.Strings;
+
 import br.com.tessaro.app.dto.obra.CadastrarEditarObraDTO;
 import br.com.tessaro.app.dto.obra.VisualizarObraDTO;
 import br.com.tessaro.app.model.Obra;
@@ -13,14 +15,16 @@ public class ObraMapper {
 		Obra obra = new Obra();
 		obra.setNome(cadastrarDTO.getNome());
 		obra.setDescricao(cadastrarDTO.getDescricao());
-		obra.setDataPublicacao(cadastrarDTO.getDataPublicacao() != null ? TimeUtil.toLocalDate(cadastrarDTO.getDataPublicacao()) : null);
-		obra.setDataExposicao(cadastrarDTO.getDataExposicao() != null ? TimeUtil.toLocalDate(cadastrarDTO.getDataExposicao()) : null);
+		obra.setDataPublicacao(Strings.isNotBlank(cadastrarDTO.getDataPublicacao()) ? TimeUtil.toLocalDate(cadastrarDTO.getDataPublicacao()) : null);
+		obra.setDataExposicao(Strings.isNotBlank(cadastrarDTO.getDataExposicao()) ? TimeUtil.toLocalDate(cadastrarDTO.getDataExposicao()) : null);
 		return obra;
+		
 	}
 
 	public static void mapperVisualizar(List<VisualizarObraDTO> visualizar, List<Obra> obras) {
 		for(Obra obra: obras) {
 			VisualizarObraDTO visua = new VisualizarObraDTO(obra);
+			visua.setId(obra.getId());
 			visua.setNome(obra.getNome());
 			visua.setDataExposicao(obra.getDataExposicao());
 			visua.setDataPublicacao(obra.getDataPublicacao());
@@ -30,6 +34,7 @@ public class ObraMapper {
 	}
 	
 	public static void mapperVisualizarID(VisualizarObraDTO visua, Obra obra) {
+			visua.setId(obra.getId());
 			visua.setNome(obra.getNome());
 			visua.setDataExposicao(obra.getDataExposicao());
 			visua.setDataPublicacao(obra.getDataPublicacao());

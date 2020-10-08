@@ -110,8 +110,8 @@ public class Autor implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Pais getPais() {
-		return pais;
+	public String getPais() {
+		return pais.getNome();
 	}
 
 	public void setPais(Pais pais) {

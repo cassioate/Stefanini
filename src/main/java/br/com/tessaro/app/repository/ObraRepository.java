@@ -14,4 +14,7 @@ public interface ObraRepository extends JpaRepository<Obra, Long>{
 	@Query("select obra from Obra obra where obra.dataPublicacao between :dataInicial and :dataFinal")
 	List<Obra> findByData(@Param("dataInicial")LocalDate dataInicial, @Param("dataFinal")LocalDate dataFinal);
 	
+	Obra findByDescricao(String descricao);
+	
+	Obra findByNome (String nome);
 }

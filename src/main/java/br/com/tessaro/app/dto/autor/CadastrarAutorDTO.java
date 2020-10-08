@@ -1,14 +1,19 @@
 package br.com.tessaro.app.dto.autor;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.br.CPF;
+import br.com.tessaro.app.service.annotations.CpfValido;
+import br.com.tessaro.app.service.annotations.DataValido;
+import br.com.tessaro.app.service.annotations.EmailValido;
+import br.com.tessaro.app.service.annotations.PaisValido;
 
-import br.com.tessaro.app.model.Pais;
+@CpfValido @EmailValido @DataValido @PaisValido
+public class CadastrarAutorDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-public class CadastrarAutorDTO {
-	
 	@NotBlank(message = "Nome é obrigatorio")
 	private String nome;
 	
@@ -20,10 +25,9 @@ public class CadastrarAutorDTO {
 	@NotBlank(message = "Data é obrigatorio")
 	private String dataNascimento;
 	
-	@NotBlank(message = "Data é obrigatorio")
-	private Pais pais;
+	@NotBlank(message = "País é obrigatorio")
+	private String pais;
 	
-	@CPF
 	private String cpf;
 
 	public String getNome() {
@@ -58,11 +62,11 @@ public class CadastrarAutorDTO {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Pais getPais() {
+	public String getPais() {
 		return pais;
 	}
 
-	public void setPais(Pais pais) {
+	public void setPais(String pais) {
 		this.pais = pais;
 	}
 

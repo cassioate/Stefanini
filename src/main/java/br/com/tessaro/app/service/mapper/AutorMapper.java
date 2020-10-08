@@ -15,22 +15,26 @@ public class AutorMapper {
 		autor.setEmail(cadastrarDTO.getEmail());
 		autor.setSexo(cadastrarDTO.getSexo());
 		autor.setDataNascimento(TimeUtil.toLocalDate(cadastrarDTO.getDataNascimento()));
-		autor.setPais(cadastrarDTO.getPais());
-		autor.setCpf(cadastrarDTO.getCpf());
+		String newCpf = AutorMapper.foramtarCpf(cadastrarDTO.getCpf());
+		autor.setCpf(newCpf);
 		return autor;
 	}
 
 	public static void mapperVisualizar(List<VisualizarAutorDTO> visualizar, List<Autor> autors) {
 		for(Autor autor: autors) {
 			VisualizarAutorDTO visua = new VisualizarAutorDTO(autor);
+			visua.setId(autor.getId());
 			visua.setNome(autor.getNome());
 			visua.setEmail(autor.getEmail());
 			visua.setDataNascimento(autor.getDataNascimento());
 			visua.setPais(autor.getPais());
+			visualizar.add(visua);
 		}
 	}
 	
 	public static void mapperVisualizarID(VisualizarAutorDTO visua, Autor autor) {
+			visua.setCpf(autor.getCpf());
+			visua.setId(autor.getId());
 			visua.setNome(autor.getNome());
 			visua.setEmail(autor.getEmail());
 			visua.setDataNascimento(autor.getDataNascimento());
@@ -44,11 +48,21 @@ public class AutorMapper {
 				entity.setEmail(obj.getEmail());
 			} if(obj.getDataNascimento()!= null) {
 				entity.setDataNascimento(TimeUtil.toLocalDate(obj.getDataNascimento()));
-			} if(obj.getPais() != null) {
-				entity.setPais(obj.getPais());
 			}
 	}
 	
+	public static String foramtarCpf (String cpf) {
+		if (cpf.length() == 11) {
+		String parte1 = cpf.substring(0, 3);
+		String parte2 = cpf.substring(3, 6);
+		String parte3 = cpf.substring(6, 9);
+		String parte4 = cpf.substring(9, 11);
+		String novoCpf = parte1+"."+parte2+"."+parte3+"-"+parte4;
+		return novoCpf;
+		} else {
+			return cpf;
+		}
+	}
 }
 	
 

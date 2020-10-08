@@ -67,17 +67,18 @@ public class ObraService {
 		return visualizar;
 	}
 	
-	public VisualizarObraDTO fromGetDTO(Obra obra) {
-		VisualizarObraDTO obj = new VisualizarObraDTO(obra);
-		return obj;
+	public VisualizarObraDTO findObraNome (String nome) {
+		VisualizarObraDTO visualizar = new VisualizarObraDTO();
+		Obra obra = repository.findByNome(nome);
+		ObraMapper.mapperVisualizarID(visualizar, obra);
+		return visualizar;
 	}
 	
-	public Obra fromDTO(CadastrarEditarObraDTO obj) {
-		Obra obra = new Obra(
-				obj.getNome(), 
-				obj.getDescricao(), 
-				TimeUtil.toLocalDate(obj.getDataPublicacao()), 
-				TimeUtil.toLocalDate(obj.getDataExposicao()));
-		return obra;
+	public VisualizarObraDTO findObraDescricao (String descricao) {
+		VisualizarObraDTO visualizar = new VisualizarObraDTO();
+		Obra obra = repository.findByDescricao(descricao);
+		ObraMapper.mapperVisualizarID(visualizar, obra);
+		return visualizar;
 	}
+	
 }

@@ -55,15 +55,25 @@ public class ObraController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Obra> put(@RequestBody CadastrarEditarObraDTO user, @PathVariable Long id) {
-		return ResponseEntity.ok().body(service.update(user, id));
+		return new ResponseEntity<Obra>(service.update(user, id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+	public ResponseEntity<String> deleteById(@PathVariable Long id) {
 		service.deleteId(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok("Deletado com sucesso!");
 	}
 
+	@GetMapping("/obraNome")
+	public ResponseEntity<VisualizarObraDTO> obraNome (@RequestParam String nome) {
+		return new ResponseEntity<VisualizarObraDTO>(service.findObraNome(nome), HttpStatus.OK);
+	}
+	
+	@GetMapping("/obraDescricao")
+	public ResponseEntity<VisualizarObraDTO> obraDescricao (@RequestParam String descricao) {
+		return new ResponseEntity<VisualizarObraDTO>(service.findObraDescricao(descricao), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<VisualizarObraDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
