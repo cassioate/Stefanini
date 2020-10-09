@@ -1,5 +1,6 @@
 package br.com.tessaro.app.service.mapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import br.com.tessaro.app.dto.pais.VisualizarPaisDTO;
 import br.com.tessaro.app.model.Pais;
 
-public class PaisMapper {
+public class PaisMapper implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 
 	public static Page<VisualizarPaisDTO> mapper(Page<Pais> paises) {

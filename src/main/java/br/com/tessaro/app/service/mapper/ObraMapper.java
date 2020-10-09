@@ -1,5 +1,6 @@
 package br.com.tessaro.app.service.mapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.model.Obra;
 import br.com.tessaro.app.service.util.TimeUtil;
 
-public class ObraMapper {
+public class ObraMapper implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	public static Obra mapper(CadastrarEditarObraDTO cadastrarDTO) {
 		Obra obra = new Obra();

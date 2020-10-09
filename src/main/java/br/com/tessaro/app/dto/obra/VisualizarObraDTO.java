@@ -1,5 +1,6 @@
 package br.com.tessaro.app.dto.obra;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +8,9 @@ import java.util.List;
 import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.model.Obra;
 
-public class VisualizarObraDTO {
-	
+public class VisualizarObraDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 	
 	private String nome;

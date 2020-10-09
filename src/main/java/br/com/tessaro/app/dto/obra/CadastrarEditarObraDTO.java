@@ -14,9 +14,8 @@ import br.com.tessaro.app.service.annotations.PeriodoDataValido;
 
 @PeriodoDataValido(dataPublicacao = "dataPublicacao", dataExposicao = "dataExposicao", message = "A data de publicação e a data de exposição não podem ser nulas ao mesmo tempo, devendo sempre uma ou outra ser informada.")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CadastrarEditarObraDTO implements Serializable {
-
-	private static final long serialVersionUID = -6640962454884836112L;
+public class CadastrarEditarObraDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@NotBlank(message = "Nome da obra é obrigatorio")
 	private String nome;

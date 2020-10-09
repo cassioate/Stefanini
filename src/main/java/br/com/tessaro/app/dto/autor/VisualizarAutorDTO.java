@@ -1,5 +1,6 @@
 package br.com.tessaro.app.dto.autor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.model.Autor;
 
-public class VisualizarAutorDTO {
+public class VisualizarAutorDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
