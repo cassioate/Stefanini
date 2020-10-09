@@ -10,9 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.dto.obra.CadastrarEditarObraDTO;
 import br.com.tessaro.app.dto.obra.VisualizarObraDTO;
+import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.model.Obra;
+import br.com.tessaro.app.repository.AutorRepository;
 import br.com.tessaro.app.repository.ObraRepository;
 import br.com.tessaro.app.service.mapper.ObraMapper;
 import br.com.tessaro.app.service.util.TimeUtil;
@@ -22,6 +25,9 @@ public class ObraService {
 
 	@Autowired
 	private ObraRepository repository;
+	
+	@Autowired
+	private AutorRepository autorRepository;
 	
 	public List<VisualizarObraDTO> findAll(){
 		List<VisualizarObraDTO> visualizar = new ArrayList<>();
@@ -40,9 +46,25 @@ public class ObraService {
 	public VisualizarObraDTO insert(CadastrarEditarObraDTO cadastrarDTO) {
 		VisualizarObraDTO visualizar = new VisualizarObraDTO();
 		Obra obra = ObraMapper.mapper(cadastrarDTO);
+		List<Autor> autores = mapearAutores(cadastrarDTO.getAutores(), obra);
+		for (Autor a: autores) {
+			obra.getAutores().add(a);
+		}
 		repository.save(obra);
 		ObraMapper.mapperVisualizarID(visualizar, obra);
 		return visualizar;
+	}
+	
+	private List<Autor> mapearAutores(List<VisualizarNomeDTO> autores, Obra obra) {
+		List<Autor> autoress = new ArrayList<>();
+		for (VisualizarNomeDTO nomeAutor: autores) {
+			Autor autor = autorRepository.findByNome(nomeAutor.getNome());
+			if(autor != null) {
+				autoress.add(autor);
+				autor.getObras().add(obra);
+			}
+		}
+		return autoress;
 	}
 	
 	public Obra update (CadastrarEditarObraDTO obj, Long id) {
@@ -52,6 +74,8 @@ public class ObraService {
 	}
 	
 	public void deleteId(Long id) {
+		Obra obra = repository.findById(id).get();
+		obra.setAutores(null);
 		repository.deleteById(id);
 	}
 	

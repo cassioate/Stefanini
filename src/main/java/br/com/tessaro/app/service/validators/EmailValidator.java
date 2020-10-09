@@ -22,11 +22,15 @@ public class EmailValidator implements ConstraintValidator<EmailValido, Cadastra
 	@Override
 	public boolean isValid(CadastrarAutorDTO email, ConstraintValidatorContext cvc) {
 		boolean isValid = Boolean.FALSE;
-		Autor exist = repository.findByEmail(email.getEmail());
+		Autor exist = null;
+		if (!email.getEmail().isBlank()) {
+			exist = repository.findByEmail(email.getEmail());
+		}
 				try {
 					if (exist == null) {
 						isValid = Boolean.TRUE; 
-					}
+					} 
+					
 				} catch (Exception e) {
 					// Continua retornando false
 				}

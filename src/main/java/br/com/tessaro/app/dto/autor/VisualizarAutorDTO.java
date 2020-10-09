@@ -1,12 +1,19 @@
 package br.com.tessaro.app.dto.autor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.model.Autor;
 
 public class VisualizarAutorDTO {
 
 	private Long id;
+	
+	private String sexo;
 	
 	private String cpf;
 	
@@ -14,9 +21,12 @@ public class VisualizarAutorDTO {
 	
 	private String email;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
 	
 	private String pais;
+	
+	List<VisualizarNomeDTO> obras = new ArrayList<>();
 	
 	public VisualizarAutorDTO() {
 		
@@ -78,6 +88,22 @@ public class VisualizarAutorDTO {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public List<VisualizarNomeDTO> getObras() {
+		return obras;
+	}
+
+	public void setObras(List<VisualizarNomeDTO> obras) {
+		this.obras = obras;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 }

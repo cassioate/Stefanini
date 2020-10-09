@@ -17,7 +17,7 @@ import br.com.tessaro.app.service.validators.DataValidator;
 @Constraint(validatedBy = {DataValidator.class})
 public @interface DataValido {
 	
-	String message() default "A data deve ser anterior a data atual!";
+	String message() default "A data deve ser anterior a data atual, e a Data deve estar formatada corretamente.";
 	 
     Class<?>[] groups() default {};
  

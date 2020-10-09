@@ -1,7 +1,10 @@
 package br.com.tessaro.app.dto.obra;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.model.Obra;
 
 public class VisualizarObraDTO {
@@ -15,6 +18,8 @@ public class VisualizarObraDTO {
 	private LocalDate dataPublicacao;
 
 	private LocalDate dataExposicao;
+	
+	private List<VisualizarNomeDTO> autores = new ArrayList<>();
 	
 	public VisualizarObraDTO() {
 		
@@ -67,4 +72,13 @@ public class VisualizarObraDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public List<VisualizarNomeDTO> getAutores() {
+		return autores;
+	}
+
+	public void setAutores(List<VisualizarNomeDTO> autores) {
+		this.autores = autores;
+	}
+
 }

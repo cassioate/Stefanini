@@ -1,12 +1,15 @@
 package br.com.tessaro.app.dto.obra;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.service.annotations.PeriodoDataValido;
 
 @PeriodoDataValido(dataPublicacao = "dataPublicacao", dataExposicao = "dataExposicao", message = "A data de publicação e a data de exposição não podem ser nulas ao mesmo tempo, devendo sempre uma ou outra ser informada.")
@@ -25,6 +28,8 @@ public class CadastrarEditarObraDTO implements Serializable {
 	private String dataPublicacao;
 
 	private String dataExposicao;
+	
+	private List<VisualizarNomeDTO> autores = new ArrayList<>();
 
 	public String getNome() {
 		return nome;
@@ -56,6 +61,14 @@ public class CadastrarEditarObraDTO implements Serializable {
 
 	public void setDataExposicao(String dataExposicao) {
 		this.dataExposicao = dataExposicao;
+	}
+	
+	public List<VisualizarNomeDTO> getAutores() {
+		return autores;
+	}
+
+	public void setAutores(List<VisualizarNomeDTO> autores) {
+		this.autores = autores;
 	}
 
 }

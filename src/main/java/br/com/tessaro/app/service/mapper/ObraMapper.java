@@ -1,11 +1,14 @@
 package br.com.tessaro.app.service.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.util.Strings;
 
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.dto.obra.CadastrarEditarObraDTO;
 import br.com.tessaro.app.dto.obra.VisualizarObraDTO;
+import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.model.Obra;
 import br.com.tessaro.app.service.util.TimeUtil;
 
@@ -29,6 +32,7 @@ public class ObraMapper {
 			visua.setDataExposicao(obra.getDataExposicao());
 			visua.setDataPublicacao(obra.getDataPublicacao());
 			visua.setDescricao(obra.getDescricao());
+			visua.setAutores(mapearAutores(obra.getAutores()));
 			visualizar.add(visua);
 		}
 	}
@@ -39,7 +43,18 @@ public class ObraMapper {
 			visua.setDataExposicao(obra.getDataExposicao());
 			visua.setDataPublicacao(obra.getDataPublicacao());
 			visua.setDescricao(obra.getDescricao());
+			visua.setAutores(mapearAutores(obra.getAutores()));
 		}
+	
+	private static List<VisualizarNomeDTO> mapearAutores(List<Autor> autores) {
+		List<VisualizarNomeDTO> visualizar = new ArrayList<>();
+		for(Autor autor: autores) {
+			VisualizarNomeDTO visualizarNome = new VisualizarNomeDTO();
+			visualizarNome.setNome(autor.getNome());
+			visualizar.add(visualizarNome);
+		}
+		return visualizar;
+	}
 
 	public static void mapperEditar (Obra entity, CadastrarEditarObraDTO obj) {
 			if(obj.getNome() != null) {

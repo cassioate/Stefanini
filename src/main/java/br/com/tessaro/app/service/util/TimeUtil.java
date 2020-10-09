@@ -9,7 +9,7 @@ public class TimeUtil {
 		throw new IllegalStateException("Classe utilitária.");
 	}
 
-	private static DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private static DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public static LocalDate toLocalDate(String time) {
 		return LocalDate.parse(time, formatterDate);

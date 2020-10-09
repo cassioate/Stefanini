@@ -18,9 +18,12 @@ public class DataValidator implements ConstraintValidator<DataValido, CadastrarA
 	@Override
 	public boolean isValid(CadastrarAutorDTO autorDTO, ConstraintValidatorContext cvc) {
 		boolean isValid = Boolean.FALSE;
-		LocalDate dataAutor = TimeUtil.toLocalDate(autorDTO.getDataNascimento());
+		LocalDate dataAutor = null;
+		if (!autorDTO.getDataNascimento().isBlank() && (autorDTO.getDataNascimento().length() == 10)) {
+			dataAutor = TimeUtil.toLocalDate(autorDTO.getDataNascimento());
+		}
 				try {
-					if (dataAutor.isBefore(LocalDate.now())){
+					if (dataAutor != null && dataAutor.isBefore(LocalDate.now())){
 						isValid = Boolean.TRUE;
 					} 
 						

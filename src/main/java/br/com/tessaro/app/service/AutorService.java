@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import br.com.tessaro.app.dto.autor.VisualizarAutorDTO;
 import br.com.tessaro.app.model.Autor;
 import br.com.tessaro.app.repository.AutorRepository;
 import br.com.tessaro.app.repository.PaisRepository;
+import br.com.tessaro.app.service.exception.NegocioException;
 import br.com.tessaro.app.service.mapper.AutorMapper;
 
 @Service
@@ -29,6 +31,7 @@ public class AutorService {
 	public List<VisualizarAutorDTO> findAll(){
 		List<VisualizarAutorDTO> visualizar = new ArrayList<>();
 		List<Autor> autores = repository.findAll();
+		
 		AutorMapper.mapperVisualizar(visualizar, autores);
 		return visualizar;
 	}
@@ -42,6 +45,10 @@ public class AutorService {
 	
 	public VisualizarAutorDTO insert(CadastrarAutorDTO cadastrarDTO) {
 		VisualizarAutorDTO visualizar = new VisualizarAutorDTO();
+		if(Strings.isNotBlank(cadastrarDTO.getCpf())) {
+			Autor autorCpf = repository.findByCpf(AutorMapper.foramtarCpf(cadastrarDTO.getCpf()));
+			existeCadastroCpf(autorCpf);			
+		}
 		Autor autor = AutorMapper.mapper(cadastrarDTO);
 		autor.setPais(paisRepository.findByNome(cadastrarDTO.getPais()));
 		repository.save(autor);
@@ -49,13 +56,25 @@ public class AutorService {
 		return visualizar;
 	}
 	
+	private void existeCadastroCpf(Autor autorCpf) {
+		if(autorCpf != null) {
+			throw new NegocioException("Cpf já cadastrado, por favor utilize outro cpf");
+		}
+		
+	}
+	
 	public Autor update (CadastrarAutorDTO obj, Long id) {
 		Autor entity = repository.getOne(id);
 		AutorMapper.mapperEditar(entity, obj);
+		entity.setPais(paisRepository.findByNome(obj.getPais()));
 		return repository.save(entity);
 	}
 	
 	public void deleteId(Long id) {
+		Autor autor = repository.findById(id).get();
+		if(!autor.getObras().isEmpty()) {
+			throw new NegocioException("Não pode excluir autor associado a uma obra");
+		}
 		repository.deleteById(id);
 	}
 	

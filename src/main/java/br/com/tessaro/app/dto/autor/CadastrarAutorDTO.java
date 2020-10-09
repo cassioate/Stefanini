@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.tessaro.app.service.annotations.CpfValido;
 import br.com.tessaro.app.service.annotations.DataValido;
 import br.com.tessaro.app.service.annotations.EmailValido;
@@ -22,7 +24,8 @@ public class CadastrarAutorDTO implements Serializable {
 	@Email
 	private String email;
 	
-	@NotBlank(message = "Data é obrigatorio")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+//	@NotBlank(message = "Data é obrigatorio")
 	private String dataNascimento;
 	
 	@NotBlank(message = "País é obrigatorio")

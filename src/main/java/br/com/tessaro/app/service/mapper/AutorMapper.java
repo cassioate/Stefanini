@@ -1,14 +1,19 @@
 package br.com.tessaro.app.service.mapper;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.dto.autor.CadastrarAutorDTO;
 import br.com.tessaro.app.dto.autor.VisualizarAutorDTO;
 import br.com.tessaro.app.model.Autor;
+import br.com.tessaro.app.model.Obra;
 import br.com.tessaro.app.service.util.TimeUtil;
 
-public class AutorMapper {
-
+public class AutorMapper implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	public static Autor mapper(CadastrarAutorDTO cadastrarDTO) {
 		Autor autor = new Autor();
 		autor.setNome(cadastrarDTO.getNome());
@@ -24,10 +29,13 @@ public class AutorMapper {
 		for(Autor autor: autors) {
 			VisualizarAutorDTO visua = new VisualizarAutorDTO(autor);
 			visua.setId(autor.getId());
+			visua.setCpf(autor.getCpf());
+			visua.setSexo(autor.getSexo());
 			visua.setNome(autor.getNome());
 			visua.setEmail(autor.getEmail());
 			visua.setDataNascimento(autor.getDataNascimento());
 			visua.setPais(autor.getPais());
+			visua.setObras(mapearObras(autor.getObras()));
 			visualizar.add(visua);
 		}
 	}
@@ -35,11 +43,23 @@ public class AutorMapper {
 	public static void mapperVisualizarID(VisualizarAutorDTO visua, Autor autor) {
 			visua.setCpf(autor.getCpf());
 			visua.setId(autor.getId());
+			visua.setSexo(autor.getSexo());
 			visua.setNome(autor.getNome());
 			visua.setEmail(autor.getEmail());
 			visua.setDataNascimento(autor.getDataNascimento());
 			visua.setPais(autor.getPais());
+			visua.setObras(mapearObras(autor.getObras()));
 		}
+	
+	private static List<VisualizarNomeDTO> mapearObras(List<Obra> obras) {
+		List<VisualizarNomeDTO> visualizar = new ArrayList<>();
+		for(Obra obra: obras) {
+			VisualizarNomeDTO visualizarNome = new VisualizarNomeDTO();
+			visualizarNome.setNome(obra.getNome());
+			visualizar.add(visualizarNome);
+		}
+		return visualizar;
+	}
 	
 	public static void mapperEditar (Autor entity, CadastrarAutorDTO obj) {
 			if(obj.getNome() != null) {
@@ -48,7 +68,10 @@ public class AutorMapper {
 				entity.setEmail(obj.getEmail());
 			} if(obj.getDataNascimento()!= null) {
 				entity.setDataNascimento(TimeUtil.toLocalDate(obj.getDataNascimento()));
-			}
+			} if(obj.getCpf() != null){
+				entity.setCpf(obj.getCpf());
+			} 
+
 	}
 	
 	public static String foramtarCpf (String cpf) {
