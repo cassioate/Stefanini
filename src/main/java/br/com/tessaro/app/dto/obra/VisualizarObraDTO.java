@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.tessaro.app.dto.VisualizarNomeDTO;
 import br.com.tessaro.app.model.Obra;
 
@@ -17,8 +19,10 @@ public class VisualizarObraDTO implements Serializable{
 
 	private String descricao;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataPublicacao;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataExposicao;
 	
 	private List<VisualizarNomeDTO> autores = new ArrayList<>();
