@@ -67,4 +67,5 @@ public class AutorController {
 		Page<VisualizarAutorDTO> listDto = list.map(obj -> new VisualizarAutorDTO(obj));  
 		return ResponseEntity.ok().body(listDto);
 	}
+	
 }
