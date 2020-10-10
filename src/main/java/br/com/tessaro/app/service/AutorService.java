@@ -50,6 +50,7 @@ public class AutorService {
 			existeCadastroCpf(autorCpf);			
 		}
 		Autor autor = AutorMapper.mapper(cadastrarDTO);
+		jaExiste(repository.findByNome(cadastrarDTO.getNome()));
 		autor.setPais(paisRepository.findByNome(cadastrarDTO.getPais()));
 		repository.save(autor);
 		AutorMapper.mapperVisualizarID(visualizar, autor);
@@ -59,6 +60,13 @@ public class AutorService {
 	private void existeCadastroCpf(Autor autorCpf) {
 		if(autorCpf != null) {
 			throw new NegocioException("Cpf já cadastrado, por favor utilize outro cpf");
+		}
+		
+	}
+	
+	private void jaExiste (Autor autor) {
+		if(autor != null) {
+			throw new NegocioException("Já exsite um autor com esse nome, insira algo para diferenciar os autores");
 		}
 		
 	}
