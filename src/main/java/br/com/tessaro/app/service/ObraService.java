@@ -80,6 +80,7 @@ public class ObraService {
 	}
 	public void removerAutores (Optional<Obra> obra) {
 	for(Autor a: obra.get().getAutores()) {
+		a.getObras().remove(obra.get());
 		obra.get().getAutores().remove(a);
 		}
 	}
