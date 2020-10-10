@@ -74,16 +74,20 @@ public class ObraService {
 	}
 	
 	public void deleteId(Long id) {
-		Optional<Obra> obra = repository.findById(id);
+		Obra obra = repository.findById(id).get();
 		removerAutores(obra);
+		obra.setAutores(null);
 		repository.deleteById(id);
 	}
-	public void removerAutores (Optional<Obra> obra) {
-	for(Autor a: obra.get().getAutores()) {
-		a.getObras().remove(obra.get());
-		obra.get().getAutores().remove(a);
+	
+	public void removerAutores (Obra obra) {
+	for(Autor a: obra.getAutores()) {
+		if (a.getObras().contains(obra)) {
+			a.getObras().remove(obra);
+			}
 		}
 	}
+	
 	public Page<Obra> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest);
