@@ -75,7 +75,7 @@ public class ObraService {
 	
 	public void deleteId(Long id) {
 		Optional<Obra> obra = repository.findById(id);
-//		removerAutores(obra);
+		removerAutores(obra);
 		repository.deleteById(id);
 	}
 	public void removerAutores (Optional<Obra> obra) {
