@@ -10,8 +10,10 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.tessaro.app.dto.VisualizarNomeDTO;
+import br.com.tessaro.app.service.annotations.ObraValido;
 import br.com.tessaro.app.service.annotations.PeriodoDataValido;
 
+@ObraValido
 @PeriodoDataValido(dataPublicacao = "dataPublicacao", dataExposicao = "dataExposicao", message = "A data de publicação e a data de exposição não podem ser nulas ao mesmo tempo, devendo sempre uma ou outra ser informada.")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CadastrarEditarObraDTO implements Serializable{
