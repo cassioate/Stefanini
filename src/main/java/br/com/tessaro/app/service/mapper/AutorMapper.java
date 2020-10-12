@@ -65,7 +65,7 @@ public class AutorMapper implements Serializable {
 		if (obj.getNome() != null && !obj.getNome().isBlank() && entity.getNome() != obj.getNome()) {
 			entity.setNome(obj.getNome());
 		}
-		if (entity.getEmail() != obj.getEmail()) {
+		if (entity.getEmail() != obj.getEmail() && obj.getEmail() != null && !obj.getEmail().isBlank()) {
 			entity.setEmail(obj.getEmail());
 		}
 		if (obj.getDataNascimento() != null && !obj.getDataNascimento().isBlank()
