@@ -47,7 +47,7 @@ public class AutorController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Autor> put(@RequestBody CadastrarAutorDTO user, @PathVariable Long id) {
+	public ResponseEntity<Autor> put(@RequestBody @Valid CadastrarAutorDTO user, @PathVariable Long id) {
 		return new ResponseEntity<Autor>(service.update(user, id), HttpStatus.OK);
 	}
 	

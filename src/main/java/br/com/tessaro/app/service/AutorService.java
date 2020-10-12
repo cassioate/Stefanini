@@ -71,12 +71,26 @@ public class AutorService {
 		
 	}
 	
+	private void confirmaDiferenteObjeto (Autor autorCpf, Long id) {
+		if (autorCpf != null && autorCpf.getId() != id) {
+			throw new NegocioException("Cpf já cadastrado, por favor utilize outro cpf");
+		}
+	}
+	
+	
 	public Autor update (CadastrarAutorDTO obj, Long id) {
+		if(Strings.isNotBlank(obj.getCpf())) {
+			String cpf = AutorMapper.foramtarCpf(obj.getCpf());
+			Autor autorCpf = repository.findByCpf(cpf);
+			confirmaDiferenteObjeto(autorCpf, id);
+		}
+		
 		Autor entity = repository.getOne(id);
 		AutorMapper.mapperEditar(entity, obj);
 		entity.setPais(paisRepository.findByNome(obj.getPais()));
 		return repository.save(entity);
 	}
+	
 	
 	public void deleteId(Long id) {
 		Autor autor = repository.findById(id).get();
