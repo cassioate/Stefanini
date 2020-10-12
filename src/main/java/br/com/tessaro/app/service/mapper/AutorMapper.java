@@ -73,7 +73,7 @@ public class AutorMapper implements Serializable {
 			entity.setDataNascimento(TimeUtil.toLocalDate(obj.getDataNascimento()));
 		}
 		
-		if (obj.getCpf() != null && !obj.getCpf().isBlank() && entity.getCpf() != obj.getCpf()) {
+		if (entity.getCpf() != obj.getCpf()) {
 			String newCpf = AutorMapper.foramtarCpf(obj.getCpf());
 			entity.setCpf(newCpf);
 		}
