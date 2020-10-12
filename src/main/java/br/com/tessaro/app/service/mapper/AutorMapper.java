@@ -74,7 +74,8 @@ public class AutorMapper implements Serializable {
 		}
 		
 		if (obj.getCpf() != null && !obj.getCpf().isBlank() && entity.getCpf() != obj.getCpf()) {
-			entity.setCpf(obj.getCpf());
+			String newCpf = AutorMapper.foramtarCpf(obj.getCpf());
+			entity.setCpf(newCpf);
 		}
 
 	}
